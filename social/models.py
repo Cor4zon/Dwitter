@@ -16,7 +16,6 @@ def create_profile(sender, instance, created, **kwargs):
 # post_save.connect(create_profile, sender=User)
 
 
-# Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     follows = models.ManyToManyField(
@@ -28,3 +27,18 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Dweet(models.Model):
+    user = models.ForeignKey(
+        User, related_name="dweets", on_delete=models.DO_NOTHING
+    )
+    body = models.TextField(max_length=155)
+    data = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return (
+            f"{self.user} "
+            f"({self.data:%Y-%m-%d %H:%M}): "
+            f"{self.body[:30]}..."
+        )

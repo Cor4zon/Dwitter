@@ -8,9 +8,40 @@
     <h1 class="title is-1">
         {{profile.user.username|upper}}'s Dweets
     </h1>
-    </div>
+
+
+   <form method="post">
+        {% csrf_token %}
+        <div class="buttons has-addons">
+            {% if profile in user.profile.follows.all %}
+                <button class="button is-success is-static">Follow</button>
+                <button class="button is-danger" name="follow" value="unfollow">Unfollow</button>
+            {% else %}
+                <button class="button is-success" name="follow" value="follow">
+                    Follow
+                </button>
+                    <button class="button is-danger is-static">Unfollow</button>
+            {% endif %}
+            </div>
+        </form>
+        </div>
+
+
+        <div class="content">
+
+            {% for dweet in profile.user.dweets.all %}
+                <div class="box">
+                    {{ dweet.body }}
+                    <span class="is-small has-text-grey-light">
+                        ({{ dweet.data }})
+                    </span>
+                </div>
+            {% endfor %}
+
+        </div>
 
 </div>
+
 
 <div class="column is-one-third">
 
@@ -22,7 +53,22 @@
         </a>
     </div>
 
-
+    <div class="block">
+        <h3 class="title is-4">
+            {{profile.user.username}} follows:
+        </h3>
+        <div class="content">
+            <ul>
+            {% for following in profile.follows.all %}
+                <li>
+                    <a href="{% url 'social:profile' following.id %}">
+                        {{ following }}
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
 
     <div class="block">
         <h3 class="title is-4">
@@ -32,7 +78,7 @@
             <ul>
             {% for follower in profile.followed_by.all %}
                 <li>
-                    <a href="{% url 'social:profile' profile.id %}">
+                    <a href="{% url 'social:profile' follower.id %}">
                         {{ follower }}
                     </a>
                 </li>
@@ -42,5 +88,6 @@
     </div>
 
 </div>
+
 
 {% endblock content %}
