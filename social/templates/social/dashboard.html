@@ -15,4 +15,16 @@
     {% endfor %}
 </div>
 
+<div class="column is-one-third">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button is-success is-fullwidth is-medium mt-5"
+                type="submit">Dweet
+        </button>
+    </form>
+
+
+</div>
+
 {% endblock content %}
