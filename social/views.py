@@ -12,7 +12,15 @@ def dashboard(request):
             dweet.save()
             return redirect("social:dashboard")
 
-    return render(request, "social/dashboard.html", context={"form": form})
+    followed_dweets = Dweet.objects.filter(
+        user__profile__in = request.user.profile.follows.all()
+    ).order_by("-data")
+
+    return render(
+        request,
+        "social/dashboard.html",
+        context={"form": form, "dweets": followed_dweets},
+    )
 
 
 def profiles(request):
