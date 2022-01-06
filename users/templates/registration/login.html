@@ -1,0 +1,33 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="column">
+
+    <div class="block">
+        <form method="post">
+            {% csrf_token %}
+            <p>{{ form.as_p }}</p>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+    <div class="block">
+        <a href="{% url 'register' %}">Register</a>
+    </div>
+
+    <div class="block">
+        <a href="{% url 'password_reset' %}">Reset password</a>
+    </div>
+
+    <div class="block">
+        <a href="{% url 'social:dashboard' %}">Back to dashboard</a>
+    </div>
+
+
+
+
+</div>
+
+{% endblock %}
