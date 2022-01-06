@@ -25,7 +25,18 @@
         </section>
     </a>
 
+
+
     <div class="container">
+
+        <div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+
         <div class="columns">
 
             {% block content %}
