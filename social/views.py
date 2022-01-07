@@ -1,8 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Profile, Dweet
 from .forms import DweetForm
 
 
+@login_required
 def dashboard(request):
     form = DweetForm(request.POST or None)
     if request.method == "POST":
@@ -23,11 +25,13 @@ def dashboard(request):
     )
 
 
+@login_required
 def profiles(request):
     profiles = Profile.objects.exclude(user=request.user)
     return render(request, "social/profiles.html", context={"profiles": profiles})
 
 
+@login_required
 def profile(request, pk):
     profile = Profile.objects.get(pk=pk)
 
